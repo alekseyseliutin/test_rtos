@@ -17,7 +17,7 @@ void Check_GPS_Pack(void)
 	while(gps_pack[i]!='*')
 	{
 		crc^=gps_pack[i++];
-		if (i>=100)
+		if (i>=sizeof(gps_pack)/sizeof(gps_pack[0]))
 		{
 			gps_info.error_crc++;
 			return;
@@ -112,7 +112,7 @@ void GPS_Parse_GNGGA(void)
         gps_info.time_pack.date = (pField[0]&0x0F)*10 + (pField[1]&0x0F);
         // Month
         gps_info.time_pack.month = (pField[2]&0x0F)*10 + (pField[3]&0x0F);
-        // Year (Only two digits. I wonder why?)
+        // Year
         gps_info.time_pack.year = (pField[4]&0x0F)*10 + (pField[5]&0x0F);
     }
 

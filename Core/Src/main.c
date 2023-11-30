@@ -510,13 +510,7 @@ void StartDefaultTask(void *argument)
 void GPS_Task(void *argument)
 {
   /* USER CODE BEGIN GPS_Task */
-	PWR_GPS_ON;
-	PWR_GSM_ON;
-	KEY_GSM_OFF;
-	osDelay(150);
-	KEY_GSM_ON;
-	osDelay(800);
-	KEY_GSM_OFF;
+  uint8_t count;
   /* Infinite loop */
   for(;;)
   {
@@ -529,23 +523,27 @@ void GPS_Task(void *argument)
 				uint8_t p=1;
 				gps_pack[0]='$';
 				i++;
+
 				while(i<sizeof(gps_data)/sizeof(gps_data[0]))
 				{
 					if (gps_data[i]==0x0D)
 					{
+						count=20;
 						Check_GPS_Pack();
 						break;
 					}
 					gps_pack[p++]=gps_data[i++];
 				}
 			}
+			if (count)
+				count--;
 
 		}
 
 		if (gps_info.fix_valid)
 			LED_R_ON;
 		else
-			gps_info.time_pack.sec & 0x01?LED_R_ON:LED_R_OFF;
+			gps_info.time_pack.sec & 0x01 && count ? LED_R_ON:LED_R_OFF;
 
   }
   /* USER CODE END GPS_Task */
@@ -563,7 +561,7 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
      if (huart == &huart3)
      {
 	 gsm_data[p_w++] = u3;
-	 if (p_w > sizeof(gsm_data)/sizeof(gsm_data[0]))
+	 if (p_w >= sizeof(gsm_data)/sizeof(gsm_data[0]))
 		 p_w = 0;
 	 HAL_UART_Receive_IT(&huart3,&u3,1);
      }
@@ -583,13 +581,19 @@ void HAL_UART_ErrorCallback(UART_HandleTypeDef *huart)
 void GSM_Task(void *argument)
 {
   /* USER CODE BEGIN GSM_Task */
-  /* Infinite loop */
-
+	PWR_GPS_ON;
+	PWR_GSM_ON;
+	KEY_GSM_OFF;
+	osDelay(150);
+	KEY_GSM_ON;
+	osDelay(800);
+	KEY_GSM_OFF;
 	HAL_UART_Receive_IT(&huart3, &u3, 1);
+ /* Infinite loop */
   for(;;)
   {
 	  gsm();
-	  vTaskDelay(10);
+	  vTaskDelay(50);
 	  if (signal_level)
 		  LED_G_ON;
 	  else

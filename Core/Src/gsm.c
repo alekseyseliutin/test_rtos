@@ -92,6 +92,7 @@ void gsm(void)
 	      gsm_write ("ATE0\r\n");
 	      gsm_state = 1;
 	      mc60_count_ATE0++;
+          signal_level =0;
 	      break;
 
 	    case 1:
@@ -232,7 +233,6 @@ void gsm(void)
 	        while (gsm_pack[i] != '"' && n<sizeof(name_operator)-1)
 	        	name_operator[n++] = gsm_pack[i++];
 	        name_operator[n] = 0;
-	        signal_level =0;
 	        gsm_write("AT+CSQ\r\n");
 	        gsm_state = 11;
 	      } else if (timeout(gsm_timeout, 1000))
