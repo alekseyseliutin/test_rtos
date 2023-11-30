@@ -1,0 +1,16 @@
+../Core/Src/main.c:150:5:main	1
+../Core/Src/main.c:240:6:SystemClock_Config	3
+../Core/Src/main.c:281:13:MX_I2C2_Init	4
+../Core/Src/main.c:329:13:MX_USART1_UART_Init	5
+../Core/Src/main.c:377:13:MX_USART3_UART_Init	5
+../Core/Src/main.c:425:13:MX_GPIO_Init	1
+../Core/Src/main.c:492:6:StartDefaultTask	1
+../Core/Src/main.c:510:6:GPS_Task	8
+../Core/Src/main.c:561:6:HAL_UART_RxCpltCallback	3
+../Core/Src/main.c:573:6:HAL_UART_ErrorCallback	2
+../Core/Src/main.c:583:6:GSM_Task	3
+../Core/Src/main.c:602:16:platform_write	2
+../Core/Src/main.c:616:16:platform_read	2
+../Core/Src/main.c:634:6:LIS_Task	9
+../Core/Src/main.c:739:6:HAL_TIM_PeriodElapsedCallback	2
+../Core/Src/main.c:756:6:Error_Handler	1
